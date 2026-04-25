@@ -1,13 +1,13 @@
-# 🤖 AMK AI - Smart AI Assistant
+# 🤖 Amkyawdev AI - Smart AI Assistant
 
 <div align="center">
 
-![AMK AI](https://img.shields.io/badge/AMK_AI-v1.0.0-gold?style=for-the-badge)
+![Amkyawdev AI](https://img.shields.io/badge/Amkyawdev_AI-v1.0.0-gold?style=for-the-badge)
 ![Vue.js](https://img.shields.io/badge/Vue.js-3.3-42b883?style=for-the-badge&logo=vue.js)
 ![Python](https://img.shields.io/badge/Python-3.9-3776ab?style=for-the-badge&logo=python)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
-**Professional AI Assistant Application with Mobile-First Design**
+**Mobile-First AI Assistant with Gold Theme**
 
 [Get Started](https://github.com/amkyawdev/amk-ai) • [Frontend](https://github.com/amkyawdev/amk-ai/tree/main/frontend) • [Backend](https://github.com/amkyawdev/amk-ai/tree/main/backend) • [Docs](https://github.com/amkyawdev/amk-ai#documentation)
 
@@ -19,29 +19,33 @@
 
 | Feature | Description |
 |---------|-------------|
-| 🏠 **Get Started** | Beautiful landing page with login/register |
-| 💬 **Burme AI Chat** | Smart AI chatbot with streaming responses |
-| 🔐 **User Auth** | Login, Register, Password Reset |
-| ⚙️ **API Settings** | Groq, Gemini, OpenAI integration |
-| 📱 **PWA Ready** | Install on any device, works offline |
-| 🎨 **Gold Theme** | Professional dark UI with gold accents |
-| 🦜 **Mobile First** | Optimized for mobile devices |
-| 🔊 **Voice Support** | Text-to-speech with Whisper |
+| 🏠 **Get Started** | Beautiful landing page leading to Register |
+| 💬 **Chat** | Smart AI chatbot with streaming responses |
+| 🔐 **Auth** | Login, Register, Reset Password |
+| 👤 **User Dialog** | User info dialog before entering chat |
+| 🔒 **Permissions** | Storage permission dialog |
+| ⚙️ **Settings** | API keys, Docs, About pages |
+| 📱 **Mobile First** | Hamburger menu, small modal size |
+| 🎨 **Gold Theme** | Smoke Black (#0f0f0f) + Gold (#FFD700) |
+| 🔊 **TTS** | Whisper voice support |
+| 🦜 **PWA Ready** | Install on any device |
 
 ---
 
 ## 📂 Project Structure
 
 ```
-amk-ai/
+amkyawdev-ai/
 ├── frontend/           # Vue.js PWA Application
-│   └── index.html     # Main SPA (all pages)
+│   ├── index.html     # Main SPA (all pages)
+│   ├── manifest.json # PWA manifest
+│   └── service-worker.js
 ├── backend/           # FastAPI Backend
-│   ├── main.py        # API Endpoints
+│   ├── main.py       # API Endpoints
 │   ├── requirements.txt
-│   ├── Dockerfile     # HuggingFace Space
+│   ├── Dockerfile   # HuggingFace Space
 │   └── pyproject.toml
-└── README.md          # This file
+└── README.md        # This file
 ```
 
 ---
@@ -70,65 +74,23 @@ python main.py
 
 ---
 
-## 📱 PWA Installation
-
-1. Open the app in Chrome/Firefox/Safari
-2. Click "Install" or add to home screen
-3. Works offline with service worker caching
-
-### PWA Features
-- ⚡ Fast loading
-- 🔒 Offline support
-- 📲 Add to home screen
-- 🔔 Push notifications ready
-
----
-
-## 🌐 Deployment
-
-### Frontend - Vercel
-
-```bash
-# Deploy frontend
-vercel deploy frontend/ --prod
-```
-
-### Backend - HuggingFace Spaces
-
-```bash
-# Push backend to HF Space
-cd backend
-git clone https://huggingface.co/spaces/amkyawdev/amk-ai-backend
-cp * amk-ai-backend/
-cd amk-ai-backend
-git push
-```
-
-Or use Docker:
-```bash
-docker build -t amkyawdev/amk-ai-backend ./backend
-docker run -p 7860:7860 -e GROQ_API_KEY=$GROQ_API_KEY amkyawdev/amk-ai-backend
-```
-
----
-
-## 📖 Documentation
-
-### Pages
+## 📱 Pages
 
 | Page | Route | Description |
 |------|-------|-------------|
-| Get Started | `/` | Landing page |
+| Get Started | `/` | Entry point with Get Started button |
 | Login | `login` | User login |
-| Register | `register` | New user registration |
+| Register | `register` | Registration |
 | Reset | `reset` | Password reset |
-| Main | `main` | Dashboard with tabs |
-| Chat | `chat` | Burme AI chatbot |
+| Main | `main` | Dashboard with hamburger menu |
+| Chat | `chat` | AI chatbot |
 | API | `api` | API key settings |
 | Docs | `docs` | Documentation |
 | About | `about` | About page |
 
-### API Endpoints
+---
+
+## 🔑 API Endpoints
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -136,6 +98,7 @@ docker run -p 7860:7860 -e GROQ_API_KEY=$GROQ_API_KEY amkyawdev/amk-ai-backend
 | `/v1/completions` | POST | Text completion |
 | `/v1/audio/transcriptions` | POST | Whisper STT |
 | `/v1/models` | GET | List models |
+| `/limits` | GET | Rate limits |
 | `/health` | GET | Health check |
 
 ---
@@ -146,7 +109,8 @@ docker run -p 7860:7860 -e GROQ_API_KEY=$GROQ_API_KEY amkyawdev/amk-ai-backend
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `GROQ_API_KEY` | Groq API key | Yes |
+| `GROQ_API_KEY` | Groq API key (Vercel) | Yes |
+| `AmkyawDev_Kay` | Alternative key | No |
 | `PORT` | Server port (default: 7860) | No |
 | `HOST` | Server host | No |
 
@@ -158,31 +122,41 @@ docker run -p 7860:7860 -e GROQ_API_KEY=$GROQ_API_KEY amkyawdev/amk-ai-backend
 
 | Color | Hex | Usage |
 |-------|-----|-------|
-| Gold | `#d4af37` | Primary accent |
-| Gold Light | `#f5d678` | Gradients |
-| Dark | `#1a1a1a` | Body background |
-| Smoke | `#2d2d2d` | Cards/containers |
+| Gold | `#FFD700` | Primary accent |
+| Gold Light | `#FFE55C` | Gradients |
+| Smoke Black | `#0f0f0f` | Body background |
+| Dark | `#1a1a1a` | Headers |
+| Card | `#252525` | Cards/containers |
 
 ---
 
-## 🤝 System Prompt (Burme AI)
+## 🤝 System Prompt (Amkyawdev AI)
 
 ```
-You are Burme AI - a helpful, polite AI assistant.
+You are Amkyawdev AI - a helpful, polite AI assistant.
 Rules:
-1. Focus on the user's question
-2. Answer accurately and clearly
-3. Use markdown formatting
-4. Be polite (use greetings like "မင်္ဂလာပါ", "ဟုတ်အကို")
+1. Focus on the user's question accurately
+2. Answer clearly with precision
+3. Use markdown formatting for code
+4. Be polite (use Burmese greetings like "ဟုတ်ကဲ့ပါ အစ်ကို", "ဟုတ်အကို", "ဟုတ်ကဲ့ပါ", "ခဏစောင့်ပေးပါနော်")
 5. Consider user emotions
 6. Format SRT files correctly
+7. Keep responses concise
+8. Focus on accurate code and projects
 ```
+
+---
+
+## 📊 Rate Limits
+
+- **Tokens**: 20/day
+- **TTS**: 20s/day total, max 6s per clip
 
 ---
 
 ## 📄 License
 
-MIT License © 2024 AMK AI
+MIT License © 2024 Amkyawdev AI
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software.
 
