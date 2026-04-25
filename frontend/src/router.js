@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getAuth } from 'firebase/auth'
 
 const routes = [
   { path: '/', name: 'home', component: () => import('./pages/MainPage.vue') },
@@ -18,8 +17,7 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
-    const auth = getAuth ? getAuth() : firebase.auth()
-    const user = auth.currentUser
+    const user = firebase.auth().currentUser
     if (!user) {
       next('/login')
     } else {

@@ -20,10 +20,12 @@ export default defineConfig({
           { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' },
           { src: 'favicon.svg', sizes: '192x192', type: 'image/svg+xml', purpose: 'any maskable' }
         ]
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
       }
     })
   ],
+  build: {
+    rollupOptions: {
+      external: ['firebase/auth', 'firebase/firestore']
+    }
+  }
 })
