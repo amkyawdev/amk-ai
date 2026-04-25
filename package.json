@@ -2,19 +2,5 @@
   "name": "amk-ai-monorepo",
   "scripts": {
     "build": "cd frontend && npm install && npm run build"
-  },
-  "version": "1.0.0",
-  "description": "A modern AI assistant web application built with Vue.js 3, featuring PWA support, clean design, and professional developer experience.",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/amkyawdev/amk-ai.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/amkyawdev/amk-ai/issues"
-  },
-  "homepage": "https://github.com/amkyawdev/amk-ai#readme"
+  }
 }
