@@ -1,0 +1,5 @@
+title = "AMK AI Backend"
+emoji = "🤖"
+color = "#d4af37"
+app_port = 7860
+sdk = "docker"
