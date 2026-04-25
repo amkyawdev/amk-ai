@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AMK AI - Get Started</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.prod.js"></script>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f5d678;
+      --bg-dark: #1a1a1a;
+      --bg-smoke: #2d2d2d;
+      --text-light: #f0f0f0;
+      --text-muted: #888;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      min-height: 100vh;
+    }
+    .bg-smoke { background: var(--bg-smoke); }
+    .text-gold { color: var(--gold); }
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #000;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    }
+    .btn-gold:active { transform: scale(0.98); }
+    .card-custom {
+      background: var(--bg-smoke);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 12px;
+    }
+    .input-custom {
+      background: var(--bg-dark);
+      border: 1px solid var(--gold);
+      color: var(--text-light);
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+    .input-custom:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    }
+    .fade-in { animation: fadeIn 0.5s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .logo-text {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Get Started Page -->
+    <div v-if="currentPage === 'getstarted'" class="get-started-page d-flex align-items-center justify-content-center min-vh-100 p-3">
+      <div class="text-center fade-in">
+        <div class="mb-4">
+          <i class="bi bi-robot text-gold" style="font-size: 4rem;"></i>
+        </div>
+        <h1 class="logo-text mb-3">AMK AI</h1>
+        <p class="text-muted mb-5">Your Smart AI Assistant</p>
+        <div class="d-flex flex-column gap-3 justify-content-center" style="max-width: 300px; margin: 0 auto;">
+          <button @click="goTo('login')" class="btn btn-gold btn-lg">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Login
+          </button>
+          <button @click="goTo('register')" class="btn btn-outline-warning btn-lg">
+            <i class="bi bi-person-plus me-2"></i>Register
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Page -->
+    <div v-if="currentPage === 'login'" class="login-page d-flex align-items-center justify-content-center min-vh-100 p-3">
+      <div class="card-custom p-4 w-100 fade-in" style="max-width: 400px;">
+        <div class="text-center mb-4">
+          <i class="bi bi-robot text-gold" style="font-size: 3rem;"></i>
+          <h2 class="logo-text mt-2">AMK AI</h2>
+        </div>
+        <form @submit.prevent="handleLogin">
+          <div class="mb-3">
+            <label class="form-label text-gold">Email</label>
+            <input v-model="loginForm.email" type="email" class="form-control input-custom" placeholder="your@email.com" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Password</label>
+            <input v-model="loginForm.password" type="password" class="form-control input-custom" placeholder="••••••••" required>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="remember">
+              <label class="form-check-label text-muted" for="remember">Remember</label>
+            </div>
+            <a @click="goTo('reset')" href="#" class="text-gold small">Forgot Password?</a>
+          </div>
+          <button type="submit" class="btn btn-gold w-100">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Login
+          </button>
+        </form>
+        <div class="text-center mt-4">
+          <span class="text-muted">Don't have account?</span>
+          <a @click="goTo('register')" href="#" class="text-gold ms-1">Register</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Register Page -->
+    <div v-if="currentPage === 'register'" class="register-page d-flex align-items-center justify-content-center min-vh-100 p-3">
+      <div class="card-custom p-4 w-100 fade-in" style="max-width: 400px;">
+        <div class="text-center mb-4">
+          <i class="bi bi-person-plus text-gold" style="font-size: 3rem;"></i>
+          <h2 class="logo-text mt-2">Register</h2>
+        </div>
+        <form @submit.prevent="handleRegister">
+          <div class="mb-3">
+            <label class="form-label text-gold">Username</label>
+            <input v-model="registerForm.username" type="text" class="form-control input-custom" placeholder="username" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Email</label>
+            <input v-model="registerForm.email" type="email" class="form-control input-custom" placeholder="your@email.com" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold">Password</label>
+            <input v-model="registerForm.password" type="password" class="form-control input-custom" placeholder="••••••••" required>
+          </div>
+          <div class="mb-4">
+            <label class="form-label text-gold">Confirm Password</label>
+            <input v-model="registerForm.confirm" type="password" class="form-control input-custom" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-gold w-100">
+            <i class="bi bi-check-circle me-2"></i>Create Account
+          </button>
+        </form>
+        <div class="text-center mt-4">
+          <span class="text-muted">Already have account?</span>
+          <a @click="goTo('login')" href="#" class="text-gold ms-1">Login</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reset Password Page -->
+    <div v-if="currentPage === 'reset'" class="reset-page d-flex align-items-center justify-content-center min-vh-100 p-3">
+      <div class="card-custom p-4 w-100 fade-in" style="max-width: 400px;">
+        <div class="text-center mb-4">
+          <i class="bi bi-key text-gold" style="font-size: 3rem;"></i>
+          <h2 class="logo-text mt-2">Reset Password</h2>
+        </div>
+        <form @submit.prevent="handleReset">
+          <div class="mb-4">
+            <label class="form-label text-gold">Email</label>
+            <input v-model="resetForm.email" type="email" class="form-control input-custom" placeholder="your@email.com" required>
+          </div>
+          <button type="submit" class="btn btn-gold w-100">
+            <i class="bi bi-send me-2"></i>Send Reset Link
+          </button>
+        </form>
+        <div class="text-center mt-4">
+          <a @click="goTo('login')" href="#" class="text-gold"><i class="bi bi-arrow-left me-1"></i>Back to Login</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Page -->
+    <div v-if="currentPage === 'main'" class="main-page">
+      <!-- Mobile Bottom Nav -->
+      <nav class="mobile-nav fixed-bottom bg-smoke border-top border-warning">
+        <div class="d-flex justify-content-around py-2">
+          <button @click="activeTab = 'home'" class="btn btn-link text-gold p-2" :class="{active: activeTab === 'home'}">
+            <i class="bi bi-house-fill fs-5"></i>
+          </button>
+          <button @click="activeTab = 'chat'" class="btn btn-link text-gold p-2" :class="{active: activeTab === 'chat'}">
+            <i class="bi bi-chat-dots-fill fs-5"></i>
+          </button>
+          <button @click="activeTab = 'api'" class="btn btn-link text-gold p-2" :class="{active: activeTab === 'api'}">
+            <i class="bi bi-gear-fill fs-5"></i>
+          </button>
+          <button @click="showUserInfo" class="btn btn-link text-gold p-2">
+            <i class="bi bi-person-fill fs-5"></i>
+          </button>
+          <button @click="toggleMenu" class="btn btn-link text-gold p-2">
+            <i class="bi bi-list fs-5"></i>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Header -->
+      <header class="app-header bg-smoke p-3 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-robot text-gold fs-4"></i>
+          <span class="logo-text fs-5">AMK AI</span>
+        </div>
+        <button class="btn btn-sm btn-outline-warning" @click="showStorage">
+          <i class="bi bi-cloud me-1"></i>Storage
+        </button>
+      </header>
+
+      <!-- Content -->
+      <main class="main-content pb-5">
+        <!-- Home Tab -->
+        <div v-if="activeTab === 'home'" class="p-3 fade-in">
+          <div class="welcome-card card-custom p-4 mb-4 text-center">
+            <i class="bi bi-greeting text-gold" style="font-size: 3rem;"></i>
+            <h3 class="text-gold mt-2">Welcome, {{ user.username }}</h3>
+            <p class="text-muted">Your AI Assistant is ready</p>
+          </div>
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="card-custom p-3 text-center" @click="goTo('chat')">
+                <i class="bi bi-chat-dots text-gold fs-3"></i>
+                <p class="mt-2 mb-0">Chat</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card-custom p-3 text-center" @click="goTo('docs')">
+                <i class="bi bi-file-text text-gold fs-3"></i>
+                <p class="mt-2 mb-0">Docs</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card-custom p-3 text-center" @click="goTo('api')">
+                <i class="bi bi-gear text-gold fs-3"></i>
+                <p class="mt-2 mb-0">API</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="card-custom p-3 text-center" @click="goTo('about')">
+                <i class="bi bi-info-circle text-gold fs-3"></i>
+                <p class="mt-2 mb-0">About</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Tab -->
+        <div v-if="activeTab === 'chat'" class="p-3 fade-in">
+          <div class="card-custom p-3 mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-gold"><i class="bi bi-robot me-2"></i>Burme AI</span>
+              <button @click="toggleStreaming" class="btn btn-sm" :class="streaming ? 'btn-success' : 'btn-outline-secondary'">
+                {{ streaming ? 'Streaming' : 'Normal' }}
+              </button>
+            </div>
+            <div class="chat-messages" id="chatMessages" style="height: 300px; overflow-y: auto;">
+              <div v-for="(msg, i) in messages" :key="i" class="mb-2">
+                <div :class="msg.role === 'user' ? 'text-end' : 'text-start'">
+                  <span class="badge" :class="msg.role === 'user' ? 'bg-warning text-dark' : 'bg-secondary'">
+                    {{ msg.role === 'user' ? 'You' : 'AI' }}
+                  </span>
+                  <div class="mt-1 p-2 rounded" :class="msg.role === 'user' ? 'bg-dark ms-auto' : 'bg-smoke'">
+                    {{ msg.content }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex gap-2 mt-3">
+              <input v-model="chatInput" @keyup.enter="sendMessage" type="text" class="form-control input-custom" placeholder="Type message...">
+              <button @click="sendMessage" class="btn btn-gold">
+                <i class="bi bi-send"></i>
+              </button>
+              <button @click="uploadFile" class="btn btn-outline-warning">
+                <i class="bi bi-paperclip"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Tab -->
+        <div v-if="activeTab === 'api'" class="p-3 fade-in">
+          <h4 class="text-gold mb-3"><i class="bi bi-key me-2"></i>API Settings</h4>
+          <div class="card-custom p-3 mb-3">
+            <div class="mb-3">
+              <label class="form-label text-gold small">GROQ API KEY</label>
+              <input v-model="apiKeys.groq" type="password" class="form-control input-custom" placeholder="gsk_...">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-gold small">Gemini API</label>
+              <input v-model="apiKeys.gemini" type="password" class="form-control input-custom" placeholder="AIza...">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-gold small">OpenAI API</label>
+              <input v-model="apiKeys.openai" type="password" class="form-control input-custom" placeholder="sk-...">
+            </div>
+            <button @click="saveApiKeys" class="btn btn-gold btn-sm">
+              <i class="bi bi-save me-1"></i>Save
+            </button>
+          </div>
+          <div class="card-custom p-3">
+            <h6 class="text-gold">Available Models</h6>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" v-model="selectedModel" value="gpt-oss-120b">
+              <label class="form-check-label">GPT-OSS 120B</label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" v-model="selectedModel" value="whisper-large-v3-turbo">
+              <label class="form-check-label">Whisper V3 Turbo</label>
+            </div>
+            <div class="form-check mb-2">
+              <input class="form-check-input" type="radio" v-model="selectedModel" value="mixtral-8x7b">
+              <label class="form-check-label">Mixtral 8x7B</label>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- User Info Dialog -->
+      <div v-if="showUserInfoDialog" class="dialog-overlay" @click.self="showUserInfoDialog = false">
+        <div class="dialog-content card-custom p-4">
+          <div class="d-flex justify-content-between mb-3">
+            <h5 class="text-gold"><i class="bi bi-person me-2"></i>User Info</h5>
+            <button @click="showUserInfoDialog = false" class="btn btn-link text-gold"><i class="bi bi-x-lg"></i></button>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold small">Username</label>
+            <input v-model="user.username" type="text" class="form-control input-custom">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold small">Email</label>
+            <input v-model="user.email" type="email" class="form-control input-custom">
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-gold small">Phone</label>
+            <input v-model="user.phone" type="tel" class="form-control input-custom" placeholder="+95...">
+          </div>
+          <button @click="saveUserInfo" class="btn btn-gold btn-sm">
+            <i class="bi bi-save me-1"></i>Save
+          </button>
+        </div>
+      </div>
+
+      <!-- Storage Dialog -->
+      <div v-if="showStorageDialog" class="dialog-overlay" @click.self="showStorageDialog = false">
+        <div class="dialog-content card-custom p-4">
+          <div class="d-flex justify-content-between mb-3">
+            <h5 class="text-gold"><i class="bi bi-cloud me-2"></i>Storage Permissions</h5>
+            <button @click="showStorageDialog = false" class="btn btn-link text-gold"><i class="bi bi-x-lg"></i></button>
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input v-model="permissions.chatHistory" class="form-check-input" type="checkbox" id="chatPerm">
+            <label class="form-check-label" for="chatPerm">Save Chat History</label>
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input v-model="permissions.voiceData" class="form-check-input" type="checkbox" id="voicePerm">
+            <label class="form-check-label" for="voicePerm">Voice Data Access</label>
+          </div>
+          <div class="form-check form-switch mb-3">
+            <input v-model="permissions.fileStorage" class="form-check-input" type="checkbox" id="filePerm">
+            <label class="form-check-label" for="filePerm">File Storage</label>
+          </div>
+          <p class="text-muted small mb-3">Daily Limits: 20s voice, 20 tokens chat</p>
+          <button @click="savePermissions" class="btn btn-gold btn-sm">
+            <i class="bi bi-check me-1"></i>Apply
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Docs Page -->
+    <div v-if="currentPage === 'docs'" class="docs-page">
+      <header class="app-header bg-smoke p-3 d-flex align-items-center">
+        <button @click="goTo('main')" class="btn btn-link text-gold me-3"><i class="bi bi-arrow-left"></i></button>
+        <h5 class="text-gold mb-0"><i class="bi bi-file-text me-2"></i>Documentation</h5>
+      </header>
+      <div class="p-3 fade-in">
+        <div class="card-custom p-3 mb-3">
+          <h6 class="text-gold">Getting Started</h6>
+          <p class="text-muted small">Learn how to use AMK AI effectively</p>
+        </div>
+        <div class="card-custom p-3 mb-3">
+          <h6 class="text-gold">API Reference</h6>
+          <p class="text-muted small">Integrate with your applications</p>
+        </div>
+        <div class="card-custom p-3 mb-3">
+          <h6 class="text-gold">Examples</h6>
+          <p class="text-muted small">Code examples and tutorials</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Page -->
+    <div v-if="currentPage === 'about'" class="about-page">
+      <header class="app-header bg-smoke p-3 d-flex align-items-center">
+        <button @click="goTo('main')" class="btn btn-link text-gold me-3"><i class="bi bi-arrow-left"></i></button>
+        <h5 class="text-gold mb-0"><i class="bi bi-info-circle me-2"></i>About</h5>
+      </header>
+      <div class="p-3 text-center fade-in">
+        <div class="card-custom p-4">
+          <i class="bi bi-robot text-gold" style="font-size: 4rem;"></i>
+          <h3 class="logo-text mt-3">AMK AI</h3>
+          <p class="text-muted">Version 1.0.0</p>
+          <p class="text-muted small">Your Smart AI Assistant built with Vue.js and Python</p>
+          <hr class="border-warning">
+          <p class="text-muted small">© 2024 AMK AI. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div v-if="toast.show" class="toast-notification position-fixed bottom-0 end-0 p-3">
+      <div class="toast show" :class="toast.type === 'error' ? 'bg-danger' : 'bg-success'">
+        <div class="toast-body text-white">
+          <i :class="toast.type === 'error' ? 'bi bi-x-circle' : 'bi bi-check-circle'"></i>
+          {{ toast.message }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .dialog-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1050;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .dialog-content {
+      width: 100%;
+      max-width: 350px;
+      animation: fadeIn 0.3s ease;
+    }
+    .mobile-nav { z-index: 1000; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: var(--bg-dark); }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+    .toast-notification { z-index: 2000; }
+  </style>
+
+  <script>
+    const { createApp, ref, reactive } = Vue;
+    createApp({
+      setup() {
+        const currentPage = ref('getstarted');
+        const activeTab = ref('home');
+        const showUserInfoDialog = ref(false);
+        const showStorageDialog = ref(false);
+        const streaming = ref(false);
+        const chatInput = ref('');
+        const messages = ref([]);
+        
+        const loginForm = reactive({ email: '', password: '' });
+        const registerForm = reactive({ username: '', email: '', password: '', confirm: '' });
+        const resetForm = reactive({ email: '' });
+        const user = reactive({ username: 'User', email: '', phone: '' });
+        const apiKeys = reactive({ groq: '', gemini: '', openai: '' });
+        const selectedModel = ref('mixtral-8x7b');
+        const permissions = reactive({ chatHistory: true, voiceData: false, fileStorage: false });
+        const toast = reactive({ show: false, message: '', type: 'success' });
+
+        const goTo = (page) => { currentPage.value = page; };
+        const showUserInfo = () => { showUserInfoDialog.value = true; };
+        const showStorage = () => { showStorageDialog.value = true; };
+        const toggleMenu = () => { activeTab.value = 'home'; };
+        const toggleStreaming = () => { streaming.value = !streaming.value; };
+
+        const handleLogin = () => {
+          showToast('Login successful!', 'success');
+          setTimeout(() => goTo('main'), 1000);
+        };
+        const handleRegister = () => {
+          if (registerForm.password !== registerForm.confirm) {
+            showToast('Password mismatch!', 'error');
+            return;
+          }
+          showToast('Account created!', 'success');
+          setTimeout(() => goTo('login'), 1000);
+        };
+        const handleReset = () => {
+          showToast('Reset link sent!', 'success');
+          setTimeout(() => goTo('login'), 1000);
+        };
+        const saveUserInfo = () => {
+          showUserInfoDialog.value = false;
+          showToast('User info saved!', 'success');
+        };
+        const saveApiKeys = () => showToast('API keys saved!', 'success');
+        const savePermissions = () => {
+          showStorageDialog.value = false;
+          showToast('Permissions updated!', 'success');
+        };
+        const sendMessage = () => {
+          if (!chatInput.value.trim()) return;
+          messages.value.push({ role: 'user', content: chatInput.value });
+          const userMsg = chatInput.value;
+          chatInput.value = '';
+          setTimeout(() => {
+            messages.value.push({ role: 'assistant', content: `🤖 ${userMsg} - Burme AI response here` });
+          }, 500);
+        };
+        const uploadFile = () => showToast('Upload feature coming soon!', 'success');
+        const showToast = (msg, type) => {
+          toast.message = msg;
+          toast.type = type;
+          toast.show = true;
+          setTimeout(() => toast.show = false, 3000);
+        };
+
+        return {
+          currentPage, activeTab, showUserInfoDialog, showStorageDialog, streaming, chatInput, messages,
+          loginForm, registerForm, resetForm, user, apiKeys, selectedModel, permissions, toast,
+          goTo, showUserInfo, showStorage, toggleMenu, toggleStreaming,
+          handleLogin, handleRegister, handleReset, saveUserInfo, saveApiKeys, savePermissions,
+          sendMessage, uploadFile
+        };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
