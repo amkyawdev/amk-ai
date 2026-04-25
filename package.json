@@ -1,0 +1,6 @@
+{
+  "name": "amk-ai-monorepo",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  }
+}
