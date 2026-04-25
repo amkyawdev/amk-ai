@@ -6,8 +6,11 @@
         <router-link to="/docs">Docs</router-link>
         <router-link to="/api">API</router-link>
         <router-link to="/about">About</router-link>
-        <router-link to="/chat" v-if="user" class="btn-chat">Chat</router-link>
-        <router-link to="/login" v-else class="btn-login">Login</router-link>
+        <template v-if="user">
+          <router-link to="/chat" class="btn-chat">Chat</router-link>
+          <button @click="logout" class="btn-logout">Logout</button>
+        </template>
+        <router-link v-else to="/login" class="btn-login">Login</router-link>
       </div>
     </nav>
     <router-view />
@@ -15,14 +18,31 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import { useAuthStore } from './stores/auth'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
-const auth = useAuthStore()
+const router = useRouter()
 
-const user = computed(() => auth.user)
+// Reactive user state
+const user = ref(null)
+
+onMounted(() => {
+  if (typeof firebase !== 'undefined') {
+    firebase.auth().onAuthStateChanged((u) => {
+      user.value = u
+    })
+  }
+})
+
+const logout = async () => {
+  if (typeof firebase !== 'undefined') {
+    await firebase.auth().signOut()
+  }
+  user.value = null
+  router.push('/login')
+}
+
 const isAuthPage = computed(() => route.path === '/login' || route.path === '/register')
 </script>
 

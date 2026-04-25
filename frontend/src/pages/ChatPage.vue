@@ -24,6 +24,12 @@
         </div>
       </div>
       <div class="input-area">
+        <label class="btn-upload">
+          <input type="file" @change="handleFile" accept="image/*,.pdf,.doc,.docx,.txt" hidden />
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+        </label>
         <input v-model="input" @keyup.enter="send" placeholder="Type your message..." class="input" :disabled="loading" />
         <button @click="send" class="btn-send" :disabled="loading">{{ loading ? '...' : 'Send' }}</button>
       </div>
@@ -81,6 +87,21 @@ const send = async () => {
   }
 }
 
+const handleFile = (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+  
+  const fileType = file.type.split('/')[0]
+  const isImage = fileType === 'image'
+  
+  messages.value.push({ 
+    role: 'user', 
+    content: `[${isImage ? 'Image' : 'File'}: ${file.name}]`,
+    fileUrl: isImage ? URL.createObjectURL(file) : null 
+  })
+  scrollToBottom()
+}
+
 const logout = () => {
   firebase.auth().signOut()
   router.push('/login')
@@ -114,7 +135,9 @@ onMounted(() => {
 .dot:nth-child(2) { animation-delay: 0.2s; }
 .dot:nth-child(3) { animation-delay: 0.4s; }
 @keyframes bounce { 0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
-.input-area { display: flex; gap: 12px; padding: 20px 0; border-top: 1px solid #1a1a1a; }
+.input-area { display: flex; gap: 12px; padding: 20px 0; border-top: 1px solid #1a1a1a; align-items: center; }
+.btn-upload { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; border: 1px solid #1a1a1a; background: #0a0a0a; color: #666; cursor: pointer; transition: all 0.2s; }
+.btn-upload:hover { border-color: #10b981; color: #10b981; }
 .input { flex: 1; padding: 14px 20px; border-radius: 12px; border: 1px solid #1a1a1a; background: #0a0a0a; color: #fff; font-size: 14px; }
 .input:focus { outline: none; border-color: #10b981; }
 .input:disabled { opacity: 0.6; }
