@@ -1,9 +1,5 @@
 {
-  "buildCommand": "cd frontend && npm run build",
+  "buildCommand": "cd frontend && npm install && npm run build",
   "outputDirectory": "frontend/dist",
-  "framework": "vite",
-  "routes": [
-    { "handle": "filesystem" },
-    { "source": "/(.*)", "destination": "/frontend/dist/index.html" }
-  ]
+  "framework": null
 }
