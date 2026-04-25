@@ -1,4 +1,4 @@
-# AMK AI Backend Dockerfile
+# Amkyawdev AI Backend Dockerfile
 # HuggingFace Space Deployment
 
 FROM python:3.9-slim
