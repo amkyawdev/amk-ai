@@ -48,7 +48,6 @@ const onPermSaved = (perms) => {
   showToast('Permissions applied!')
 }
 
-// Check dialogs on login
 const checkDialogs = () => {
   if (!userStore.user.username || !userStore.user.email) {
     showUserDialog.value = true
@@ -67,12 +66,13 @@ if (userStore.isLoggedIn) {
 <style>
 :root {
   --gold: #FFD700;
-  --gold-dark: #D4AF37;
-  --bg-dark: #0A0A0A;
-  --bg-secondary: #2C2F33;
-  --text: #ffffff;
-  --text-secondary: #aaaaaa;
-  --accent: #E94560;
+  --gold-dark: #DAA520;
+  --gold-light: #FFF8DC;
+  --bg: #0A0A0A;
+  --card: #1E1E1E;
+  --input: #2C2F33;
+  --text: #FFFFFF;
+  --text-secondary: #B0B0B0;
 }
 
 * {
@@ -82,10 +82,12 @@ if (userStore.isLoggedIn) {
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: var(--bg-dark);
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  background: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
 }
 
 .app {
@@ -109,9 +111,24 @@ body {
   transform: translateX(-50%);
   background: var(--gold);
   color: #000;
-  padding: 12px 24px;
-  border-radius: 10px;
+  padding: 10px 20px;
+  border-radius: 20px;
   font-weight: 600;
+  font-size: 13px;
   z-index: 9999;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 2px;
 }
 </style>
