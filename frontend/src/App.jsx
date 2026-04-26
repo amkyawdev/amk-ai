@@ -76,7 +76,7 @@ function App() {
     <BrowserRouter>
       <div style={{
         minHeight: '100vh',
-        background: '#2a2a2a',
+        background: '#000000',
         fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
       }}>
         <Toaster
