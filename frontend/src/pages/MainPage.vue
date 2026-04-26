@@ -1,5 +1,6 @@
 <template>
   <div class="main-page">
+    <Navbar />
     <main class="content">
       <div class="hero">
         <h2 class="hero-title">AI Assistant for Everyone</h2>
@@ -13,9 +14,13 @@
   </div>
 </template>
 
+<script setup>
+import Navbar from '../components/Navbar.vue'
+</script>
+
 <style scoped>
-.main-page { min-height: 100vh; background: #0a0a0a; display: flex; align-items: center; justify-content: center; }
-.content { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 40px; }
+.main-page { min-height: auto; background: #0a0a0a; display: flex; align-items: center; justify-content: center; }
+.content { display: flex; align-items: center; justify-content: center; min-height: auto; padding: 40px; }
 .hero { text-align: center; max-width: 600px; }
 .hero-title { font-size: 48px; font-weight: 700; margin-bottom: 16px; background: linear-gradient(135deg, #10b981, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .hero-text { font-size: 18px; color: #666; margin-bottom: 32px; }
