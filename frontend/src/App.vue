@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <nav class="navbar" v-if="showNavbar">
+    <nav class="navbar" v-if="!hideNavbar">
       <router-link to="/" class="nav-logo">AmkyawDev AI</router-link>
       <div class="nav-links">
         <router-link to="/docs">Docs</router-link>
@@ -44,7 +44,7 @@ const logout = async () => {
 }
 
 const isAuthPage = computed(() => route.path === '/login' || route.path === '/register')
-const showNavbar = computed(() => !isAuthPage.value)
+const hideNavbar = computed(() => route.path === '/chat')
 </script>
 
 <style>
