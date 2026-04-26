@@ -1,5 +1,6 @@
 <template>
   <div class="chat-page">
+    <Navbar />
     <main class="chat-main">
       <div class="messages" ref="messagesContainer">
         <div v-for="(msg, i) in messages" :key="i" :class="['message', msg.role]">
@@ -32,6 +33,7 @@
 <script setup>
 import { ref, nextTick, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import Navbar from '../components/Navbar.vue'
 
 const router = useRouter()
 const input = ref('')
