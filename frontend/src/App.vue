@@ -49,9 +49,9 @@ const showNavbar = computed(() => !isAuthPage.value)
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; }
-.app { min-height: 100vh; }
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; overflow-x: hidden; }
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+.navbar { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; position: sticky; top: 0; z-index: 100; }
 .nav-logo { font-size: 16px; font-weight: 700; color: #10b981; text-decoration: none; }
 .nav-links { display: flex; gap: 16px; align-items: center; }
 .nav-links a { color: #666; text-decoration: none; font-size: 13px; }
