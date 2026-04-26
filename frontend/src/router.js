@@ -17,11 +17,27 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
-    const user = firebase.auth().currentUser
-    if (!user) {
+    try {
+      const user = firebase.auth().currentUser
+      if (!user) {
+        // Wait for auth to initialize
+        await new Promise(resolve => {
+          const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+            unsubscribe()
+            resolve(user)
+          })
+        })
+        const finalUser = firebase.auth().currentUser
+        if (!finalUser) {
+          next('/login')
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
+    } catch (e) {
       next('/login')
-    } else {
-      next()
     }
   } else {
     next()
